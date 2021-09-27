@@ -1,0 +1,6 @@
+.modal__form {
+  display: flex;
+  flex-direction: column;
+  padding: 25px;
+  background-color: white;
+}
