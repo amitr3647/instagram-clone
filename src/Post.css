@@ -10,7 +10,8 @@
   padding: 10px;
 }
 .post__image {
-  /* object-fit: contain; */
+  height: 22rem;
+  object-fit: cover;
   width: 100%;
   border-top: 1px solid lightgray;
   border-bottom: 1px solid lightgray;
