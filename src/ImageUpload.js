@@ -5,6 +5,7 @@ import { storage, db } from "./firebase";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { serverTimestamp } from "@firebase/firestore";
 import { collection, addDoc } from "firebase/firestore";
+import { orderBy } from "@firebase/firestore";
 export default function ImageUpload({ username }) {
   const [image, setImage] = useState("");
   const [progress, setProgress] = useState(0);
@@ -32,12 +33,16 @@ export default function ImageUpload({ username }) {
         // Handle successful uploads on complete
 
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-          const docRef = addDoc(collection(db, "posts"), {
-            timestamp: serverTimestamp(),
-            caption: caption,
-            imageUrl: downloadURL,
-            username: username,
-          });
+          const docRef = addDoc(
+            collection(db, "posts"),
+
+            {
+              timestamp: serverTimestamp(),
+              caption: caption,
+              imageUrl: downloadURL,
+              username: username,
+            }
+          );
           console.log("aaa", docRef, downloadURL);
         });
         setProgress(0);
@@ -52,6 +57,7 @@ export default function ImageUpload({ username }) {
       setImage(e.target.files[0]);
     }
   };
+  console.log("image", image);
   return (
     <div className="image_upload">
       {/* caption input */}
@@ -61,6 +67,7 @@ export default function ImageUpload({ username }) {
       <input
         type="text"
         placeholder="enter caption"
+        value={caption}
         onChange={(e) => setCaption(e.target.value)}
       ></input>
       <input type="file" onChange={changeHandler}></input>

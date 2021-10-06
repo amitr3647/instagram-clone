@@ -48,7 +48,7 @@ function App() {
       {user?.displayName ? (
         <ImageUpload username={user.displayName} />
       ) : (
-        <h1>Login to upload..</h1>
+        <h1></h1>
       )}
       <ModalBox
         open={open}
@@ -64,8 +64,8 @@ function App() {
         user={user}
         setUser={setUser}
       />
-      <div className="post_container">
-        <div className="post_container_left">
+      <div className="container">
+        <div className="post_container">
           {posts.map(({ id, post }) => {
             return (
               <Post
@@ -79,21 +79,6 @@ function App() {
               />
             );
           })}
-        </div>
-        <div className="post_container_right">
-          {/* <InstagramEmbed
-            url="https://www.instagram.com/iamitkr25/"
-            clientAccessToken="176379611293832|IGQVJWQ0t6U0R2MXh4UFdzZATBuM2JneHJOYlFWSkY0U25DN3RGZAlZAqSHY3QWNscGNCanVuUVNaZA0x1Q19qRTF6RERwOWtNeHZAYTzlOMTJuWGZA0Q1JWWVl3aGxqdmJxNzYzM2VJbXU5MFMzNHlvb3BaVAZDZD"
-            maxWidth={320}
-            hideCaption={false}
-            containerTagName="div"
-            protocol=""
-            injectScript
-            onLoading={() => {}}
-            onSuccess={() => {}}
-            onAfterRender={() => {}}
-            onFailure={() => {}}
-          /> */}
         </div>
       </div>
     </div>

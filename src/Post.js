@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { addDoc } from "firebase/firestore";
 import { db } from "./firebase";
-import { collection, doc } from "@firebase/firestore";
+import { collection, doc, orderBy } from "@firebase/firestore";
 import "./Post.css";
 import image1 from "./images/pexels-david-besh-884788.jpg";
 import Avatar from "@mui/material/Avatar";
@@ -14,20 +14,31 @@ function Post({ username, user, caption, imageUrl, postId }) {
     if (postId) {
       unsubscribe = doc(db, "posts", postId);
 
-      onSnapshot(collection(db, "posts", postId, "comments"), (snapshot) => {
-        console.log("amit", snapshot);
-        setComments(snapshot.docs.map((doc) => doc.data()));
-      });
+      onSnapshot(
+        collection(db, "posts", postId, "comments"),
+        orderBy("date", "desc"),
+        (snapshot) => {
+          // console.log("amit", snapshot);
+          setComments(snapshot.docs.map((doc) => doc.data()));
+        }
+      );
     }
   }, [postId]);
   //adding comment on clicking  the post button
   const postComment = (event) => {
     event.preventDefault();
-    const docRef = addDoc(collection(db, "posts", postId, "comments"), {
-      text: comment,
-      username: user.displayName,
-    });
-    setComment("");
+    if (user) {
+      const docRef = addDoc(collection(db, "posts", postId, "comments"), {
+        text: comment,
+        username: user.displayName,
+      });
+      setComment("");
+    } else {
+      console.log("error");
+      setComment("");
+
+      return alert("You are not logged");
+    }
   };
 
   return (
@@ -45,7 +56,6 @@ function Post({ username, user, caption, imageUrl, postId }) {
       </h3>
       <div className="post_comments">
         {comments.map((comment) => (
-          
           <p>
             <b>{comment.username}</b>
             {comment.text}
