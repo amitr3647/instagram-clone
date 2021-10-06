@@ -1,6 +1,9 @@
 .app__header {
-    background-color: white;
-    padding: 15px;
-    border-bottom: 1px solid lightgray;
-    object-fit: contain;
-  }
+  background-color: white;
+  padding: 15px;
+  border-bottom: 1px solid lightgray;
+  object-fit: contain;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}

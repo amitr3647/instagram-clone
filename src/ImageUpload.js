@@ -1,4 +1,5 @@
 import { Button } from "@mui/material";
+import "./ImageUpload.css";
 import React, { useState } from "react";
 import { storage, db } from "./firebase";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
@@ -52,7 +53,7 @@ export default function ImageUpload({ username }) {
     }
   };
   return (
-    <div>
+    <div className="image_upload">
       {/* caption input */}
       {/* file picker */}
       {/* post button */}

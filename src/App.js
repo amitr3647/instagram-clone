@@ -9,6 +9,7 @@ import Header from "./Header";
 import { Button } from "@mui/material";
 import { getAuth, signOut } from "@firebase/auth";
 import ImageUpload from "./ImageUpload";
+import InstagramEmbed from "react-instagram-embed";
 function App() {
   const [posts, setPosts] = useState([]);
   const [open, setOpen] = useState(false); //this is for opening signup modal
@@ -35,15 +36,15 @@ function App() {
   const auth = getAuth();
   return (
     <div className="app">
-      <Header />
-      {user ? (
+      <Header user={user} setOpen={setOpen} setOpenSignIn={setOpenSignIn} />
+      {/* {user ? (
         <Button onClick={() => signOut(auth)}>Log Out</Button>
       ) : (
         <div className="login__container">
           <Button onClick={() => setOpenSignIn(true)}>Log In</Button>
           <Button onClick={() => setOpen(true)}>Sign up</Button>
         </div>
-      )}
+      )}*/}
       {user?.displayName ? (
         <ImageUpload username={user.displayName} />
       ) : (
@@ -63,18 +64,38 @@ function App() {
         user={user}
         setUser={setUser}
       />
-      {posts.map(({ id, post }) => {
-        return (
-          <Post
-            key={id}
-            postId={id}
-            username={post.username}
-            caption={post.caption}
-            imageUrl={post.imageUrl}
-            id={post.id}
-          />
-        );
-      })}
+      <div className="post_container">
+        <div className="post_container_left">
+          {posts.map(({ id, post }) => {
+            return (
+              <Post
+                key={id}
+                postId={id}
+                username={post.username}
+                caption={post.caption}
+                imageUrl={post.imageUrl}
+                id={post.id}
+                user={user}
+              />
+            );
+          })}
+        </div>
+        <div className="post_container_right">
+          {/* <InstagramEmbed
+            url="https://www.instagram.com/iamitkr25/"
+            clientAccessToken="176379611293832|IGQVJWQ0t6U0R2MXh4UFdzZATBuM2JneHJOYlFWSkY0U25DN3RGZAlZAqSHY3QWNscGNCanVuUVNaZA0x1Q19qRTF6RERwOWtNeHZAYTzlOMTJuWGZA0Q1JWWVl3aGxqdmJxNzYzM2VJbXU5MFMzNHlvb3BaVAZDZD"
+            maxWidth={320}
+            hideCaption={false}
+            containerTagName="div"
+            protocol=""
+            injectScript
+            onLoading={() => {}}
+            onSuccess={() => {}}
+            onAfterRender={() => {}}
+            onFailure={() => {}}
+          /> */}
+        </div>
+      </div>
     </div>
   );
 }

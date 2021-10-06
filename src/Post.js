@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
+import { addDoc } from "firebase/firestore";
 import { db } from "./firebase";
 import { collection, doc } from "@firebase/firestore";
 import "./Post.css";
 import image1 from "./images/pexels-david-besh-884788.jpg";
 import Avatar from "@mui/material/Avatar";
 import { onSnapshot } from "@firebase/firestore";
-function Post({ username, caption, imageUrl, postId }) {
+function Post({ username, user, caption, imageUrl, postId }) {
   const [comments, setComments] = useState([]);
   const [comment, setComment] = useState("");
   useEffect(() => {
@@ -22,6 +23,11 @@ function Post({ username, caption, imageUrl, postId }) {
   //adding comment on clicking  the post button
   const postComment = (event) => {
     event.preventDefault();
+    const docRef = addDoc(collection(db, "posts", postId, "comments"), {
+      text: comment,
+      username: user.displayName,
+    });
+    setComment("");
   };
 
   return (
@@ -39,14 +45,14 @@ function Post({ username, caption, imageUrl, postId }) {
       </h3>
       <div className="post_comments">
         {comments.map((comment) => (
-          // <p>{comment.username}</p>
+          
           <p>
             <b>{comment.username}</b>
             {comment.text}
           </p>
         ))}
       </div>
-      <form>
+      <form className="post_comment_box">
         <input
           className="post_input"
           type="text"
